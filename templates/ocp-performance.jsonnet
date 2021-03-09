@@ -86,24 +86,24 @@ local diskIOPS(nodeName) = genericGraphLegendPanel('Disk IOPS: ' + nodeName, 'io
 
 local networkUtilization(nodeName) = genericGraphLegendPanel('Network Utilization: ' + nodeName, 'bps').addTarget(
   prometheus.target(
-    'rate(node_network_receive_bytes_total{instance=~"' + nodeName + '",device=~"$net_device"}[5m]) * 8',
+    'irate(node_network_receive_bytes_total{instance=~"' + nodeName + '",device=~"$net_device"}[30s]) * 8',
     legendFormat='{{instance}} - {{device}} - RX',
   )
 ).addTarget(
   prometheus.target(
-    'rate(node_network_transmit_bytes_total{instance=~"' + nodeName + '",device=~"$net_device"}[5m]) * 8',
+    'irate(node_network_transmit_bytes_total{instance=~"' + nodeName + '",device=~"$net_device"}[30s]) * 8',
     legendFormat='{{instance}} - {{device}} - TX',
   )
 );
 
 local networkPackets(nodeName) = genericGraphLegendPanel('Network Packets: ' + nodeName, 'pps').addTarget(
   prometheus.target(
-    'rate(node_network_receive_packets_total{instance=~"' + nodeName + '",device=~"$net_device"}[5m])',
+    'irate(node_network_receive_packets_total{instance=~"' + nodeName + '",device=~"$net_device"}[30s])',
     legendFormat='{{instance}} - {{device}} - RX',
   )
 ).addTarget(
   prometheus.target(
-    'rate(node_network_transmit_packets_total{instance=~"' + nodeName + '",device=~"$net_device"}[5m])',
+    'irate(node_network_transmit_packets_total{instance=~"' + nodeName + '",device=~"$net_device"}[30s])',
     legendFormat='{{instance}} - {{device}} - TX',
   )
 );
