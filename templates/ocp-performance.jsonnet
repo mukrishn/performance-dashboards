@@ -142,7 +142,7 @@ local conntrackStats(nodeName) = genericGraphLegendPanel('Conntrack stats: ' + n
 
 local top10ContainerCPU(nodeName) = genericGraphLegendPanel('Top 10 container CPU: ' + nodeName, 'percent').addTarget(
   prometheus.target(
-    'topk(10, sum(irate(container_cpu_usage_seconds_total{container!="POD",name!="",node=~"' + nodeName + '",namespace!="",namespace=~"$namespace"}[30s])) by (pod,container,namespace,name,service) * 100)',
+    'topk(10, sum(irate(container_cpu_usage_seconds_total{container!="POD",name!="",node=~"' + nodeName + '",namespace!="",namespace=~"$namespace"}[1m])) by (pod,container,namespace,name,service) * 100)',
     legendFormat='{{ pod }}: {{ container }}',
   )
 );
@@ -167,21 +167,21 @@ local containerWriteBytes(nodeName) = genericGraphLegendPanel('Container fs writ
 
 local ovnAnnotationLatency = genericGraphPanel('Pod Annotation Latency', 's').addTarget(
   prometheus.target(
-    'sum by (instance) (rate(ovnkube_master_pod_creation_latency_seconds_sum[30s]))',
+    'sum by (instance) (rate(ovnkube_master_pod_creation_latency_seconds_sum[1m]))',
     legendFormat='{{instance}}',
   )
 );
 
 local ovnCNIAdd = genericGraphPanel('CNI Request ADD Latency', 's').addTarget(
   prometheus.target(
-    'sum by (instance) (rate(ovnkube_node_cni_request_duration_seconds_sum{command="ADD"}[30s]))',
+    'sum by (instance) (rate(ovnkube_node_cni_request_duration_seconds_sum{command="ADD"}[1m]))',
     legendFormat='{{instance}}',
   )
 );
 
 local ovnCNIDel = genericGraphPanel('CNI Request DEL Latency', 's').addTarget(
   prometheus.target(
-    'sum by (instance) (rate(ovnkube_node_cni_request_duration_seconds_sum{command="DEL"}[30s]))',
+    'sum by (instance) (rate(ovnkube_node_cni_request_duration_seconds_sum{command="DEL"}[1m]))',
     legendFormat='{{instance}}',
   )
 );
