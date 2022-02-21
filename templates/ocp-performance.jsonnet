@@ -426,6 +426,51 @@ local clusterOperatorsDegraded = genericGraphLegendPanel('Cluster operators degr
   )
 );
 
+// Hypershift Hosted Cluster Components
+
+local hostedControlPlaneCPU = genericGraphLegendPanel('Hosted Control Plane CPU', 'none').addTarget(
+  prometheus.target(
+    'topk(10,hypershift:controlplane:component_cpu_usage_seconds{app=~'etcd.*'})',
+    legendFormat='hyper - {{namespace}} - {{app}}',
+  )
+).addTarget(
+  prometheus.target(
+    'topk(10,hypershift:controlplane:component_cpu_usage_seconds{app=~'kube.*'})',
+    legendFormat='hyper - {{namespace}} - {{app}}',
+  )
+).addTarget(
+  prometheus.target(
+    'topk(10,hypershift:controlplane:component_cpu_usage_seconds{app=~'cluster.*'})',
+    legendFormat='hyper - {{namespace}} - {{app}}',
+  )
+).addTarget(
+  prometheus.target(
+    'topk(10,hypershift:controlplane:component_cpu_usage_seconds{app=~'openshift.*'})',
+    legendFormat='hyper - {{namespace}} - {{app}}',
+  )
+);
+
+local hostedControlPlaneMemory = genericGraphLegendPanel('Hosted Control Plane Memory', 'bytes').addTarget(
+  prometheus.target(
+    'topk(10,hypershift:controlplane:component_memory_usage{app=~'etcd.*'})',
+    legendFormat='hyper - {{namespace}} - {{app}}',
+  )
+).addTarget(
+  prometheus.target(
+    'topk(10,hypershift:controlplane:component_memory_usage{app=~'kube.*'})',
+    legendFormat='hyper - {{namespace}} - {{app}}',
+  )
+).addTarget(
+  prometheus.target(
+    'topk(10,hypershift:controlplane:component_memory_usage{app=~'cluster.*'})',
+    legendFormat='hyper - {{namespace}} - {{app}}',
+  )
+).addTarget(
+  prometheus.target(
+    'topk(10,hypershift:controlplane:component_memory_usage{app=~'openshift.*'})',
+    legendFormat='hyper - {{namespace}} - {{app}}',
+  )
+);
 
 // Dashboard
 
@@ -617,6 +662,13 @@ grafana.dashboard.new(
     clusterOperatorsOverview { gridPos: { x: 0, y: 4, w: 24, h: 3 } },
     clusterOperatorsInformation { gridPos: { x: 0, y: 4, w: 8, h: 8 } },
     clusterOperatorsDegraded { gridPos: { x: 8, y: 4, w: 8, h: 8 } },
+  ],
+), { gridPos: { x: 0, y: 4, w: 24, h: 1 } })
+
+.addPanel(grafana.row.new(title='Hypershift ControlPlane', collapse=true).addPanels(
+  [
+    hostedControlPlaneCPU { gridPos: { x: 0, y: 11, w: 12, h: 8 } },
+    hostedControlPlaneMemory { gridPos: { x: 12, y: 11, w: 12, h: 8 } },
   ],
 ), { gridPos: { x: 0, y: 4, w: 24, h: 1 } })
 
