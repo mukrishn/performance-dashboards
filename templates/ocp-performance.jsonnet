@@ -633,8 +633,6 @@ grafana.dashboard.new(
       crioCPU { gridPos: { x: 12, y: 3, w: 12, h: 8 } },
       kubeletMemory { gridPos: { x: 0, y: 11, w: 12, h: 8 } },
       crioMemory { gridPos: { x: 12, y: 11, w: 12, h: 8 } },
-      hostedControlPlaneCPU { gridPos: { x: 0, y: 11, w: 12, h: 8 } },
-      hostedControlPlaneMemory { gridPos: { x: 12, y: 11, w: 12, h: 8 } },      
     ]
   ), { gridPos: { x: 0, y: 2, w: 24, h: 1 } }
 )
@@ -667,6 +665,12 @@ grafana.dashboard.new(
   ],
 ), { gridPos: { x: 0, y: 4, w: 24, h: 1 } })
 
+.addPanel(grafana.row.new(title='Hypershift ControlPlane', collapse=true).addPanels(
+  [
+    hostedControlPlaneCPU { gridPos: { x: 0, y: 11, w: 12, h: 8 } },
+    hostedControlPlaneMemory { gridPos: { x: 12, y: 11, w: 12, h: 8 } },
+  ],
+), { gridPos: { x: 0, y: 4, w: 24, h: 1 } })
 
 .addPanel(grafana.row.new(title='Master: $_master_node', collapse=true, repeat='_master_node').addPanels(
   [
